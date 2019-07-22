@@ -18,7 +18,7 @@ local err, warn, info, log = luatexbase.provides_module({
 
 -- ]]
 
-local lib = require(kpse.find_file("lyluatex-lib.lua") or "lyluatex-lib.lua")
+local lib = require(kpse.find_file("luaoptions-lib.lua") or "luaoptions-lib.lua")
 local optlib = {}  -- namespace for the returned table
 local Opts = {options = {}}  -- Options class
 Opts.__index = function (self, k) return self.options[k] or rawget(Opts, k) end
