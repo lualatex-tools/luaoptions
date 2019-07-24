@@ -15,3 +15,13 @@
 \directlua{
   lua_options = require(kpse.find_file("luaoptions.lua") or "luaoptions.lua")
 }
+
+% Set an option in a registered client
+\newcommand{\setluaoption}[3]{
+  \directlua{
+    lua_options.set_option(
+      '\luatexluaescapestring{#1}',
+      '\luatexluaescapestring{#2}',
+      '\luatexluaescapestring{#3}')
+  }
+}

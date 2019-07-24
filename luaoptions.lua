@@ -53,9 +53,7 @@ function Opts:new(opt_prefix, declarations)
         o.options[k] = v[1] or ''
         if opt_prefix then
             tex.sprint(string.format([[
-\DeclareOptionX{%s}{\directlua{
-    %s:set_option('%s', '\luatexluaescapestring{#1}')
-}}%%
+\DeclareOptionX{%s}{\setluaoption{%s}{%s}{#1}}%%
 ]],
                 k, opt_prefix, k
             ))
@@ -63,6 +61,8 @@ function Opts:new(opt_prefix, declarations)
         end
     end
     if opt_prefix then
+        --opt_prefix = opt_prefix
+        _G[opt_prefix..'_opts'] = o
         tex.sprint([[\ExecuteOptionsX{]]..exopt..[[}%%]], [[\ProcessOptionsX]])
     end
     return o
@@ -282,6 +282,21 @@ function optlib.merge_options(base_opt, super_opt)
     return result
 end
 
+function optlib.set_option(client_prefix, k, v)
+--[[
+    Set an option.
+    Look up a registered client and set an option.
+    Produces an error if the client hasn't been registered.
+--]]
+    local client = _G[client_prefix..'_opts']
+    if not client then
+        err(string.format([[
+Try setting option for non-registered client
+%s
+]], client_prefix))
+    end
+    client:set_option(k, v)
+end
 
 optlib.Opts = Opts
 return optlib
