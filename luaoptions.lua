@@ -25,17 +25,10 @@ Opts.__index = function (self, k) return self.options[k] or rawget(Opts, k) end
 setmetatable(Opts, Opts)
 
 
-function Opts:new(opt_prefix, declarations)
+function Opts:new(declarations)
 --[[
-    Declare package options along with their default and
-    accepted values. To *some* extent also provide type checking.
-    - opt_prefix: the prefix/name by which the lyluatex-options module is
-        referenced in the parent LaTeX document (preamble or package).
-        This is required to write the code calling optlib.set_option into
-        the option declaration.
-        If the new Opts object is *not* intended to be used as *package* options
-        then opt_prefix should be nil. In that case the Opts object is simply
-        returned and can be stored by the caller.
+    Declare an options object along with default and accepted values.
+    To *some* extent also provide type checking.
     - declarations: a definition table stored in the calling module (see below)
     Each entry in the 'declarations' table represents one package option, with each
     value being an array (table with integer indexes instead of keys). For
@@ -48,22 +41,8 @@ function Opts:new(opt_prefix, declarations)
         },
         self
     )
-    local exopt = ''
     for k, v in pairs(declarations) do
         o.options[k] = v[1] or ''
-        if opt_prefix then
-            tex.sprint(string.format([[
-\DeclareOptionX{%s}{\setluaoption{%s}{%s}{#1}}%%
-]],
-                k, opt_prefix, k
-            ))
-            exopt = exopt..k..'='..(v[1] or '')..','
-        end
-    end
-    if opt_prefix then
-        --opt_prefix = opt_prefix
-        _G[opt_prefix..'_opts'] = o
-        tex.sprint([[\ExecuteOptionsX{]]..exopt..[[}%%]], [[\ProcessOptionsX]])
     end
     return o
 end
@@ -280,6 +259,28 @@ function optlib.merge_options(base_opt, super_opt)
     for k, v in pairs(base_opt) do result[k] = v end
     for k, v in pairs(super_opt) do result[k] = v end
     return result
+end
+
+function optlib.register(client_name, declarations)
+--[[
+    Register a client as package options.
+    - Create a new Opts object,
+    - initialize it,
+    - store it in a global variable <client_name>_opts,
+    - write the code to handle the package options.
+--]]
+    local o = Opts:new(declarations)
+    local exopt = ''
+    for k, v in pairs(declarations) do
+        tex.sprint(string.format([[
+\DeclareOptionX{%s}{\setluaoption{%s}{%s}{#1}}%%
+]],
+            k, client_name, k
+        ))
+        exopt = exopt..k..'='..(v[1] or '')..','
+    end
+    _G[client_name..'_opts'] = o
+    tex.sprint([[\ExecuteOptionsX{]]..exopt..[[}%%]], [[\ProcessOptionsX]])
 end
 
 function optlib.set_option(client_prefix, k, v)
