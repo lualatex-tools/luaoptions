@@ -85,7 +85,6 @@ acs-*.bib
 *-gnuplottex-*
 
 # hyperref
-*.brf
 
 # knitr
 *-concordance.tex
@@ -143,3 +142,4 @@ sympy-plots-for-*.tex/
 # lyluatex temp directories
 *tmp-ly/
 /lyluatex.tex
+/luaoptions.tex
