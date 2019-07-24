@@ -23,7 +23,7 @@ local optlib = {}  -- namespace for the returned table
 local Opts = {options = {}}  -- Options class
 Opts.__index = function (self, k) return self.options[k] or rawget(Opts, k) end
 setmetatable(Opts, Opts)
-
+local clients = {}
 
 function Opts:new(declarations)
 --[[
@@ -279,23 +279,28 @@ function optlib.register(client_name, declarations)
         ))
         exopt = exopt..k..'='..(v[1] or '')..','
     end
-    _G[client_name..'_opts'] = o
+    clients[client_name] = o
     tex.sprint([[\ExecuteOptionsX{]]..exopt..[[}%%]], [[\ProcessOptionsX]])
 end
 
-function optlib.set_option(client_prefix, k, v)
+function optlib.client(name)
+    local client = clients[name]
+    if not client then
+        err(string.format([[
+Try setting option for non-registered client
+%s
+]], name))
+    end
+    return client
+end
+
+function optlib.set_option(client_name, k, v)
 --[[
     Set an option.
     Look up a registered client and set an option.
     Produces an error if the client hasn't been registered.
 --]]
-    local client = _G[client_prefix..'_opts']
-    if not client then
-        err(string.format([[
-Try setting option for non-registered client
-%s
-]], client_prefix))
-    end
+    local client = optlib.client(client_name)
     client:set_option(k, v)
 end
 
