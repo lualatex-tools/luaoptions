@@ -304,5 +304,13 @@ function optlib.set_option(client_name, k, v)
     client:set_option(k, v)
 end
 
+function optlib.use_option(client_name, k)
+--[[
+    Look up an option and write it to LaTex.
+--]]
+    local client = optlib.client(client_name)
+    client:use_option(k)
+end
+
 optlib.Opts = Opts
 return optlib

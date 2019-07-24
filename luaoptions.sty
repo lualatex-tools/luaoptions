@@ -17,11 +17,20 @@
 }
 
 % Set an option in a registered client
-\newcommand{\setluaoption}[3]{
+\newcommand{\setluaoption}[3]{%
   \directlua{
     lua_options.set_option(
       '\luatexluaescapestring{#1}',
       '\luatexluaescapestring{#2}',
       '\luatexluaescapestring{#3}')
+  }
+}
+
+% Use an option and directly write it to LaTeX
+\newcommand{\useluaoption}[2]{%
+  \directlua{
+    lua_options.use_option(
+      '\luatexluaescapestring{#1}',
+      '\luatexluaescapestring{#2}')
   }
 }
