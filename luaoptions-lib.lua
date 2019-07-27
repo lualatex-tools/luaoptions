@@ -139,6 +139,22 @@ end
 ------------------------------------
 -- Engine, version, TeX distribution
 
+local function _loaded(ext)
+--[[
+    Returns a function that checks whether a class or a package is loaded
+    https://tex.stackexchange.com/questions/501635/
+--]]
+    local fmt = "ver@%s." .. ext
+    return function(name)
+        local macro = token.get_macro(fmt:format(name))
+        return macro ~= nil
+    end
+end
+
+-- Lua implementations of \@ifpackageloaded and \@ifclassloaded
+lib.class_loaded = _loaded('cls')
+lib.package_loaded = _loaded('sty')
+
 local tex_engine = {}
 setmetatable(tex_engine, tex_engine)
 
