@@ -294,6 +294,15 @@ Try setting option for non-registered client
     return client
 end
 
+function optlib.get_option(client_name, k)
+--[[
+    Get an option's value from a registered client.
+    Raises an error if the client hasn't been registered.
+--]]
+    local client = optlib.client(client_name)
+    return client.options[k]
+end
+
 function optlib.set_option(client_name, k, v)
 --[[
     Set an option.
