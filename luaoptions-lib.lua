@@ -62,6 +62,14 @@ function lib.convert_unit(value)
 end
 
 
+function lib.current_font_size()
+--[[
+    Convenience function to return the font size of the current font
+--]]
+    return lib.fontinfo(font.current()).size
+end
+
+
 function lib.dirname(str)
 --[[
   Given the full path to a file, return only the path (without file name),
