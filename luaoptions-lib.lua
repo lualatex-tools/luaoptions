@@ -84,7 +84,7 @@ function lib.fontinfo(id)
 --[[
   Return a LuaTeX font object based on the given ID
 --]]
-    return fontdata[id] or font.fonts[id]
+    return fontdata[id] or font.getfont(id)
 end
 
 
