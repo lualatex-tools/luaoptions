@@ -291,14 +291,11 @@ function optlib.register(client_name, declarations)
 end
 
 function optlib.client(name)
-    local client = clients[name]
-    if not client then
-        err(string.format([[
-Try setting option for non-registered client
-%s
-]], name))
-    end
-    return client
+--[[
+    Return the FormattersTable instance registered with the given client name.
+    Return 'nil' if no client is found.
+--]]
+    return clients[name]
 end
 
 function optlib.get_option(client_name, k)
