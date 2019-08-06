@@ -78,6 +78,13 @@ function Opts:check_local_options(opts, ignore_declarations)
     return options
 end
 
+function Opts:has_option(name)
+--[[
+    Returns true if the given option is declared
+--]]
+    return self.declarations[name] ~= nil
+end
+
 function Opts:is_neg(k)
 --[[
     Type check for a 'negative' option. This is an existing option
