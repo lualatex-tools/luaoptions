@@ -110,12 +110,18 @@ function lib.mkdirs(str)
 end
 
 
-function lib.orderedpairs(t)
-    local key
-    local i = 0
+function lib.orderedkeys(t)
     local orderedIndex = {}
     for k in pairs(t) do table.insert(orderedIndex, k) end
     table.sort(orderedIndex)
+    return orderedIndex
+end
+
+
+function lib.orderedpairs(t)
+    local key
+    local i = 0
+    local orderedIndex = lib.orderedkeys(t)
     return function ()
             i = i + 1
             key = orderedIndex[i]
@@ -123,6 +129,53 @@ function lib.orderedpairs(t)
         end
 end
 
+
+function lib.print_table(t, indent)
+-- Recursively print a table, avoiding recursion loops
+    indent = indent or '  '
+    local visited = {}
+    local skips = 0
+
+    local function _print_table(_t, _ind)
+        local keys = lib.orderedkeys(_t)
+        local display_keys = {}
+        local length = 0
+        for key, _ in pairs(_t) do
+            length = lib.max(length, #tostring(key))
+        end
+        for key, _ in pairs(_t) do
+            display_key = tostring(key)
+            display_keys[key] = display_key .. string.rep(
+                ' ', length - #display_key)
+        end
+        for k, v in lib.orderedpairs(_t) do
+            if type(v) == 'table' then
+                if visited[v] then
+                    skips = skips + 1
+                else
+                    visited[v] = true
+                    print(_ind..display_keys[k], v)
+                    if #_ind > 40 then err("k") end
+                    _print_table(v, _ind..indent)
+                end
+            else
+                if v == '' then v = '(empty string)' end
+                print(_ind..display_keys[k], v)
+            end
+        end
+    end
+
+    print()
+    visited[t] = true
+    print("Print table:", t)
+    _print_table(t, indent)
+    print()
+    if skips > 0 then
+        print(string.format('%s recursive tables skipped', skips))
+    end
+    print("============")
+    print()
+end
 
 function lib.readlinematching(s, f)
     if f then
