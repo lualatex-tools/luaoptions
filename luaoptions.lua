@@ -295,6 +295,7 @@ function optlib.register(client_name, declarations)
     end
     clients[client_name] = o
     tex.sprint([[\ExecuteOptionsX{]]..exopt..[[}%%]], [[\ProcessOptionsX]])
+    return o
 end
 
 function optlib.client(name)
