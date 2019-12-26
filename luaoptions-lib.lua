@@ -125,7 +125,9 @@ end
 function lib.orderedkeys(t)
     local orderedIndex = {}
     for k in pairs(t) do table.insert(orderedIndex, k) end
-    table.sort(orderedIndex)
+    table.sort(orderedIndex, function(a,b)
+        return tostring(a) > tostring(b)
+    end)
     return orderedIndex
 end
 
