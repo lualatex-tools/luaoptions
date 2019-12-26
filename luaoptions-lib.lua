@@ -88,6 +88,18 @@ function lib.fontinfo(id)
 end
 
 
+function lib.indexof(t, elt)
+--[[
+    Return the index of an element in an array,
+    or 0 if elt is not found in the (sequence) array.
+--]]
+    for i, key in ipairs(t) do
+        print(elt, i, key)
+        if key == elt then return i end
+    end
+    return 0
+end
+
 function lib.max(a, b)
     a, b = tonumber(a), tonumber(b)
     if a > b then return a else return b end
