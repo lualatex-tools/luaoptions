@@ -230,6 +230,13 @@ or a (multiplied) TeX length (".8\linewidth")
 end
 
 
+function optlib.is_int(k, _)
+    local num = tonumber(k)
+    if not num then return false end
+    return not k:find('%.')
+end
+
+
 function optlib.is_neg(k, _)
 --[[
     Type check for a 'negative' option. At this stage,
