@@ -9,6 +9,6 @@ as a building block for LuaLaTeX packages in general, and the development of
 clear that the option handling code had to be moved to a standalone package.
 
 Initially there is no extensive documentation available since the package wasn't
-originally intended to be exposed to third-party packages or even end-users, and
-it is at this point only released to make the release of `luaformatters`
-possible.
+originally intended to be exposed to third-party packages or even end-users;
+the best sources of documentation are `lyluatex` and `luaformatters` codes,
+and the docstrings of `luaoptions.lua` and `luaoptions-lib.lua`.
