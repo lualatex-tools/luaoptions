@@ -1,8 +1,8 @@
 ---
-documentclass: lyluatexmanual
+documentclass: luaoptionsmanual
 title: "\\texttt{luaoptions}"
-subtitle: "1.0 beta"
-date: \lyluatexmanualdate
+subtitle: "0.8"
+date: \luaoptionsmanualdate
 author:
 - Fr. Jacques Peron
 - Urs Liska
@@ -13,14 +13,14 @@ author:
 
 # Introduction
 
-`luaoptions` is a  \LuaLaTeX\ package providing extensive support for handling
+`luaoptions` is a  LuaLaTeX package providing extensive support for handling
 *options*, on package level and locally.  It is hosted at
 <https://github.com/lualatex-tools/luaoptions> and maintained by Jacques Peron
 (<cataclop@hotmail.com>) and Urs Liska (<git@ursliska.de>).  The package was
 originally developed as part of the `lyluatex`
 package^[<https://github.com/jperon/lyluatex>] but has now been extracted as a
 standalone package because we realized it can be a useful tool for arbitrary
-\LuaLaTeX\ packages having to deal with *options* -- both *package options* and
+LuaLaTeX packages having to deal with *options* -- both *package options* and
 *optional macro arguments*.  A `lyluatex` installation should not be a
 dependency for packages that want to make use of option handling but are not
 interested in music engraving \dots
@@ -34,15 +34,34 @@ it to a package.  `luaoptions` can be used to enforce and prepopulate options,
 or it can be used to simply handle the parsing of optional `key=value` arguments
 into proper Lua tables.
 
+The main use of `luaoptions` is to define package options as follows:
+
+```tex
+\RequirePackage{luaoptions}
+\directlua{
+  local _opt = lua_options
+  lua_options.register('myoptions', {
+    ['option'] = {'default value', 'other value', ''},
+    ['otheroption'] = {'default', validator},
+    ['yetanotheroptions'] = {},
+  })
+}
+```
+
+`validator` is a function that returns `true` when the defined option is valid,
+`false` otherwise. `luaoptions` itself contains predefined such functions.
+
+After that, defined options are available in a lua table, which can be used by
+the mean of the `client` command:
+
+```lua
+local myopts = lua_options.client('myoptions')
+tex.sprint(myopts.option)
+```
+
 This initial release does *not* include documentation beyond this short
-introduction.  The release is necessary and intended in order to make possible
-the release of the `luaformatters`
-package^[<https://github.com/lualatex-tools/luaformatters>] -- the development
-of which was the motivation for singling out `luaoptions` as a standalone
-package.  The plan is to provide a `v1.0f` release along with a version 1 of
-`luaformatters`, with a full manual by then.  `luaoptions` can be useful for
-arbitrary Lua-based \LaTeX\ packages, and we hope that with a proper manual this
-will become actually usable.
+introduction; please refer to the docstrings in `luaoptions.lua` and
+`luaoptions-lib.lua` for more information.
 
 For the time being it is possible to look into how some of our own packages make
 use of `luaoptions`:

@@ -5,3 +5,14 @@ manual:
 
 clean:
 	git clean -fXd
+
+ctan: manual
+	mkdir -p ./ctan/luaoptions
+	cp -R luaoptions.sty luaoptions*.lua \
+		latexmkrc luaoptions*.cls \
+		luaoptions.tex luaoptions.pdf LICENSE Contributors.md \
+		./ctan/luaoptions/
+	echo 'Main author: [Fr. Jacques Peron](mailto:cataclop@hotmail.com)\nThis material is subject to the MIT license.\n' \
+		> ./ctan/luaoptions/README.md
+	cat README.md >> ./ctan/luaoptions/README.md
+	(cd ctan/ ; zip -r luaoptions luaoptions)
