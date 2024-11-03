@@ -224,7 +224,7 @@ function tex_engine:__call()
     Defines the properties extracted from the first line of jobname.log.
 --]]
     local f = io.open(kpse.find_file(tex.jobname..'.log'))
-    if not f then return end
+    if not f then return {} end
     self.engine, self.engine_version, self.dist, self.dist_version, self.format, self.format_version =
         f:read():match(
             'This is ([^,]*), Version ([^%(]*) %(([^%)]*) ([^%)]*)%)%s+%(format=([^%)]*) ([^)]*)%)'
