@@ -1,6 +1,6 @@
 %Luaoptions LaTeX class for the manual.
 %
-% Copyright (C) 2015-2022 the lualatex-tools Project
+% Copyright (C) 2015-2026 the lualatex-tools Project
 % License: MIT
 % This file is part of luaoptions.
 
