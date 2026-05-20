@@ -1,11 +1,11 @@
 %Luaoptions LaTeX class.
 %
-% Copyright (C) 2015-2022 the lualatex-tools Project
+% Copyright (C) 2015-2026 the lualatex-tools Project
 % License: MIT
 % This file is part of lualatex-tools.
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{luaoptionsbase}[2022/10/30 v0.8]  %%LUAOPTIONS_DATE LUAOPTIONS_VERSION
+\ProvidesClass{luaoptionsbase}[2026/05/20 v0.9]  %%LUAOPTIONS_DATE LUAOPTIONS_VERSION
 
 \LoadClass[DIV=11]{scrartcl}
 \RequirePackage{blindtext}

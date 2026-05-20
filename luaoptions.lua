@@ -1,11 +1,11 @@
 -- luacheck: ignore ly warn info log self luatexbase internalversion font fonts tex token kpse status
 local err, warn, info, log = luatexbase.provides_module({
     name               = "luaoptions",
-    version            = '0.8',  --LUAOPTIONS_VERSION
-    date               = "2022/10/30",  --LUAOPTIONS_DATE
+    version            = '0.9',  --LUAOPTIONS_VERSION
+    date               = "2026/05/20",  --LUAOPTIONS_DATE
     description        = "Module luaoptions.",
     author             = "The lualatex-tools Project",
-    copyright          = "2015-2022 - the lualatex-tools Project",
+    copyright          = "2015-2026 - the lualatex-tools Project",
     license            = "MIT",
 })
 

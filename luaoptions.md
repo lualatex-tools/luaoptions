@@ -1,7 +1,7 @@
 ---
 documentclass: luaoptionsmanual
 title: "\\texttt{luaoptions}"
-subtitle: "0.8"
+subtitle: \luaoptionsmanualversion
 date: \luaoptionsmanualdate
 author:
 - Fr. Jacques Peron

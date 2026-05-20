@@ -5,7 +5,7 @@
 % This file is part of luaoptions.
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{luaoptionsmanual}[2022/10/30 v0.8]  %%LUAOPTIONS_DATE LUAOPTIONS_VERSION
+\ProvidesClass{luaoptionsmanual}[2026/05/20 v0.9]  %%LUAOPTIONS_DATE LUAOPTIONS_VERSION
 
 \LoadClass{luaoptionsbase}
 
@@ -29,13 +29,24 @@
     \hypertarget{#1}{}
 }
 
-
-\newcommand{\luaoptionsmanualdate}{
-	\directlua{
-		local PC = string.char(37)
-		local date_fmt = PC..'Y-'..PC..'m-'..PC..'d'
-		local p = io.popen('git log -n1 --date=short --format='..PC..'"ad"', 'r')
-		tex.sprint(p and p:read('*a'):sub(1,-2) or os.date(date_fmt))
-		if p then p:close() end
-	}
+\makeatletter
+\newcommand{\luaoptionsmanualdate}{%
+	\begingroup
+	\edef\x{\endgroup
+		\noexpand\luaoptions@extractdate
+		\csname ver@luaoptionsmanual.cls\endcsname
+		\noexpand\@nil}%
+	\x
 }
+\def\luaoptions@extractdate#1 #2\@nil{#1}
+
+\newcommand{\luaoptionsmanualversion}{%
+	\begingroup
+	\edef\x{\endgroup
+		\noexpand\luaoptions@extractversion
+		\csname ver@luaoptionsmanual.cls\endcsname
+		\noexpand\@nil}%
+	\x
+}
+\def\luaoptions@extractversion#1 v#2\@nil{#2}
+\makeatother
